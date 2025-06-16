@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Feature Analyzer</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #word-display { font-size: 1.5em; margin-bottom: 20px; }
+    button { padding: 10px 20px; margin: 0 10px; font-size: 1em; }
+    #results { margin-top: 20px; }
+    #error { color: red; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Word Feature Analyzer</h1>
+  <div id="word-display">Loading...</div>
+  <button id="yes-btn">Yes</button>
+  <button id="no-btn">No</button>
+  <div id="results"></div>
+  <div id="error"></div>
+
+  <script>
+    let words = [];
+    let currentIndex = 0;
+    let selectedFeatures = [];
+    const errorDiv = document.getElementById('error');
+
+    // Load and filter dataset from data.json
+    fetch('data.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to load data.json. Check if the file exists in the repository.');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Filter dataset based on condition (e.g., score >= 1)
+        const dataset = {};
+        Object.keys(data).forEach(word => {
+          if (data[word].score >= 1) { // Modify this condition as needed
+            dataset[word] = data[word];
+          }
+        });
+
+        // Check if dataset is empty after filtering
+        if (Object.keys(dataset).length === 0) {
+          throw new Error('No words match the filter condition (score >= 1).');
+        }
+
+        // Populate words array from filtered dataset
+        words = Object.keys(dataset).map(word => ({ word, features: dataset[word] }));
+        showNextWord();
+      })
+      .catch(error => {
+        errorDiv.textContent = `Error: ${error.message}`;
+        document.getElementById('word-display').textContent = 'Failed to load words';
+        console.error('Error:', error);
+      });
+
+    // Show the current word
+    function showNextWord() {
+      if (currentIndex < words.length) {
+        document.getElementById('word-display').textContent = words[currentIndex].word;
+      } else {
+        displayResults();
+      }
+    }
+
+    // Handle Yes button
+    document.getElementById('yes-btn').addEventListener('click', () => {
+      if (currentIndex < words.length) {
+        const features = words[currentIndex].features;
+        const featureNames = ['long_words', 'diagraphs', 'not_freq_words', 'silent_letters', 'vowel_digraphs', 'has_homophones', 'difficult_orthography'];
+        featureNames.forEach(name => {
+          if (features[name] === 1) {
+            selectedFeatures.push(name);
+          }
+        });
+        currentIndex++;
+        showNextWord();
+      }
+    });
+
+    // Handle No button
+    document.getElementById('no-btn').addEventListener('click', () => {
+      if (currentIndex < words.length) {
+        currentIndex++;
+        showNextWord();
+      }
+    });
+
+    // Display results
+    function displayResults() {
+      document.getElementById('word-display').textContent = 'No more words!';
+      document.getElementById('yes-btn').disabled = true;
+      document.getElementById('no-btn').disabled = true;
+
+      // Count feature occurrences
+      const featureCounts = {};
+      selectedFeatures.forEach(feature => {
+        featureCounts[feature] = (featureCounts[feature] || 0) + 1;
+      });
+
+      // Find the feature with the highest count
+      let maxFeature = '';
+      let maxCount = 0;
+      for (const [feature, count] of Object.entries(featureCounts)) {
+        if (count > maxCount) {
+          maxFeature = feature;
+          maxCount = count;
+        }
+      }
+
+      // Display text results
+      const resultsDiv = document.getElementById('results');
+      if (maxFeature) {
+        resultsDiv.textContent = `Most common feature: ${maxFeature} (appeared ${maxCount} times)`;
+      } else {
+        resultsDiv.textContent = 'No features selected.';
+      }
+    }
+  </script>
+</body>
+</html>

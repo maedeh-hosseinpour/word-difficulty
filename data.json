@@ -1,0 +1,6 @@
+{"Argentina": {"long_words": 1, "diagraphs": 0, "not_freq_words": 0, "silent_letters": 0, "vowel_digraphs": 0, "has_homophones": 0, "difficult_orthography": 0, "score": 1, "zipf": 4.22, "zipf_bin": 1, "subset": 8}, 
+"Arlington": {"long_words": 1, "diagraphs": 0, "not_freq_words": 0, "silent_letters": 0, "vowel_digraphs": 0, "has_homophones": 0, "difficult_orthography": 0, "score": 1, "zipf": 3.73, "zipf_bin": 1, "subset": 22}, 
+"Arthur": {"long_words": 0, "diagraphs": 1, "not_freq_words": 0, "silent_letters": 0, "vowel_digraphs": 0, "has_homophones": 0, "difficult_orthography": 0, "score": 1, "zipf": 4.41, "zipf_bin": 2, "subset": 15}, 
+"Athena": {"long_words": 0, "diagraphs": 1, "not_freq_words": 0, "silent_letters": 0, "vowel_digraphs": 0, "has_homophones": 0, "difficult_orthography": 0, "score": 1, "zipf": 3.25, "zipf_bin": 0, "subset": 17}, 
+"Bangladesh": {"long_words": 0, "diagraphs": 1, "not_freq_words": 0, "silent_letters": 0, "vowel_digraphs": 0, "has_homophones": 0, "difficult_orthography": 0, "score": 1, "zipf": 3.96, "zipf_bin": 1, "subset": 8}, 
+"Blenheim": {"long_words": 0, "diagraphs": 0, "not_freq_words": 1, "silent_letters": 0, "vowel_digraphs": 1, "has_homophones": 0, "difficult_orthography": 0, "score": 2, "zipf": 2.71, "zipf_bin": 0, "subset": 8}}
