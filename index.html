@@ -176,8 +176,82 @@
     <div id="result"></div>
   </div>
 
- 
-<script>
+  <script defer>
+    let participantId = "";
+    let words = [];
+    let currentIndex = 0;
+    let startTime = Date.now();
+    let responses = [];
+    let currentPhase = "rating"; 
+    let previousRating = null;
+    const participantUrl = document.referrer || "Direct";
+    const MIN_EXPLANATION_LENGTH = 10;
+    let userCount = parseInt(localStorage.getItem('userCount') || '0');
+    let currentSubset = 0;
+    let featureCounts = {
+      long_words: 0,
+      diagraphs: 0,
+      not_freq_words: 0,
+      silent_letters: 0,
+      vowel_digraphs: 0,
+      has_homophones: 0,
+      difficult_orthography: 0
+    };
+
+    // Increment user count and assign subset (1-23, cycles)
+    userCount++;
+    localStorage.setItem('userCount', userCount);
+    currentSubset = ((userCount - 1) % 23) + 1;
+
+    // Load JSON data on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('data.json')
+        .then(response => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.json();
+        })
+        .then(data => {
+          words = Object.entries(data)
+            .filter(([word, info]) => info.subset === currentSubset)
+            .map(([word, info]) => ({
+              word,
+              features: {
+                long_words: info.long_words,
+                diagraphs: info.diagraphs,
+                not_freq_words: info.not_freq_words,
+                silent_letters: info.silent_letters,
+                vowel_digraphs: info.vowel_digraphs,
+                has_homophones: info.has_homophones,
+                difficult_orthography: info.difficult_orthography
+              }
+            }));
+          // Re-validate to enable start button if ID is valid
+          validateProlificId();
+        })
+        .catch(error => {
+          console.error('Error loading JSON:', error);
+          alert('Failed to load data.json. Check the console for details.');
+        });
+    });
+
+    function validateProlificId() {
+      const input = document.getElementById("participantId").value.trim();
+      const isValid = /^[A-Za-z0-9]{22,24}$/.test(input);
+      const startBtn = document.getElementById("start-btn");
+      startBtn.disabled = !isValid || words.length === 0;
+    }
+
+    function startTask() {
+      participantId = document.getElementById("participantId").value.trim();
+      if (words.length === 0) {
+        alert("Data is still loading or failed to load. Please check the console for errors.");
+        return;
+      }
+      document.getElementById("id-input-section").style.display = "none";
+      document.getElementById("main-task").style.display = "block";
+      showWord();
+    }
+
     function formatTimestamp(date) {
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -290,7 +364,6 @@
       responses[currentIndex].difficulty = responses[currentIndex].rating_sequence.join(',');
       responses[currentIndex].time_seconds = timeTaken;
 
-      // Count features for Hard (3) or Very Hard (4) ratings
       if (rating >= 3) {
         for (let feature in words[currentIndex].features) {
           if (words[currentIndex].features[feature] === 1) {
@@ -445,7 +518,6 @@
       submitBtn.disabled = true;
       submitBtn.textContent = "Submitting...";
 
-      // Find feature with maximum count
       let maxFeature = "";
       let maxCount = 0;
       for (let feature in featureCounts) {
@@ -455,7 +527,6 @@
         }
       }
 
-      // Display result
       document.getElementById("result").innerHTML = maxFeature
         ? `Most common difficulty feature: ${maxFeature.replace('_', ' ')} (${maxCount} occurrences)`
         : "No features were rated as Hard or Very Hard.";
