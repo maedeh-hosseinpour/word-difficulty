@@ -176,67 +176,8 @@
     <div id="result"></div>
   </div>
 
-  <script>
-    let participantId = "";
-    let words = [];
-    let currentIndex = 0;
-    let startTime = Date.now();
-    let responses = [];
-    let currentPhase = "rating"; 
-    let previousRating = null;
-    const participantUrl = document.referrer || "Direct";
-    const MIN_EXPLANATION_LENGTH = 10;
-    let userCount = parseInt(localStorage.getItem('userCount') || '0');
-    let currentSubset = 0;
-    let featureCounts = {
-      long_words: 0,
-      diagraphs: 0,
-      not_freq_words: 0,
-      silent_letters: 0,
-      vowel_digraphs: 0,
-      has_homophones: 0,
-      difficult_orthography: 0
-    };
-
-    // Increment user count and assign subset (1-23, cycles)
-    userCount++;
-    localStorage.setItem('userCount', userCount);
-    currentSubset = ((userCount - 1) % 23) + 
-      // Load JSON data
-    fetch('data.json')
-      .then(response => response.json())
-      .then(data => {
-        // Filter words and features for the assigned subset
-        words = Object.entries(data)
-          .filter(([word, info]) => info.subset === currentSubset)
-          .map(([word, info]) => ({
-            word,
-            features: {
-              long_words: info.long_words,
-              diagraphs: info.diagraphs,
-              not_freq_words: info.not_freq_words,
-              silent_letters: info.silent_letters,
-              vowel_digraphs: info.vowel_digraphs,
-              has_homophones: info.has_homophones,
-              difficult_orthography: info.difficult_orthography
-            }
-          }));
-      })
-      .catch(error => console.error('Error loading JSON:', error));
-
-    function validateProlificId() {
-      const input = document.getElementById("participantId").value.trim();
-      const isValid = /^[A-Za-z0-9]{22,24}$/.test(input);
-      document.getElementById("start-btn").disabled = !isValid;
-    }
-
-    function startTask() {
-      participantId = document.getElementById("participantId").value.trim();
-      document.getElementById("id-input-section").style.display = "none";
-      document.getElementById("main-task").style.display = "block";
-      showWord();
-    }
-
+ 
+<script>
     function formatTimestamp(date) {
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, '0');
