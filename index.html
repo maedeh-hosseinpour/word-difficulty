@@ -316,7 +316,6 @@
       vowel_digraphs: 0
     };
 
-    // Load words from GitHub raw URL
     async function loadWords() {
       try {
         const response = await fetch('https://raw.githubusercontent.com/maedeh-hosseinpour/test/main/data.json');
@@ -339,9 +338,8 @@
       const input = document.getElementById("participantId").value.trim();
       participantId = input;
       
-      // Load words and filter by subset
       const allWords = await loadWords();
-      const subsetId = (parseInt(input.slice(-2), 36) % 24) + 1; // Map ID to 1-24
+      const subsetId = (parseInt(input.slice(-2), 36) % 24) + 1;
       words = allWords.filter(word => word.subset === subsetId);
       
       document.getElementById("id-input-section").style.display = "none";
@@ -468,7 +466,6 @@
       responses[currentIndex].difficulty = responses[currentIndex].rating_sequence.join(',');
       responses[currentIndex].time_seconds = timeTaken;
       
-      // Count features for hard ratings
       if (rating >= 3) {
         const wordData = words[currentIndex];
         featureCounts.long_words += wordData.long_words || 0;
@@ -655,17 +652,12 @@
       submitBtn.disabled = true;
       submitBtn.textContent = "Submitting...";
 
-      // Generate feedback
-      let feedback = "Based on your answers, ";
-      const features = [];
-      if (featureCounts.long_words > 0) features.push("long words");
-      if (featureCounts.diagraphs > 0) features.push("words with digraphs");
-      if (featureCounts.silent_letters > 0) features.push("words with silent letters");
-      if (featureCounts.vowel_digraphs > 0) features.push("words with vowel digraphs");
-      
-      feedback += features.length > 0 
-        ? features.join(", ") + " are a bit challenging for you."
-        : "no specific word features stood out as particularly challenging.";
+      // Find the most repeated feature
+      const counts = Object.values(featureCounts);
+      const maxCount = Math.max(...counts);
+      const mostChallenging = Object.keys(featureCounts).find(key => featureCounts[key] === maxCount);
+
+      const feedback = mostChallenging ? `Based on your answers, ${mostChallenging.replace('_', ' ')} seems to be the most challenging feature for you.` : "No specific features stood out as challenging.";
 
       const url = `https://script.google.com/macros/s/AKfycbwtxXb5rlg_AQ8C2HWC-oOFEvgJTcd3QiHLGUllwuy9NPVpRM8bf04A9pgMsRifVx0l/exec?participant=${participantId}`;
 
@@ -743,5 +735,3 @@
     document.getElementById("difficultyReason").addEventListener('input', updateCharCount);
     document.getElementById("no-letter-option").onclick = showExplanationBox;
   </script>
-</body>
-</html>
