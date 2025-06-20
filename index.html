@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,6 +43,22 @@
       line-height: 1.2;
     }
 
+    .analysis-box {
+      width: 90%;
+      max-width: 480px;
+      min-height: 80px;
+      margin: 20px auto 10px;
+      background: #f8f9fa;
+      border: 2px solid #007bff;
+      border-radius: 8px;
+      padding: 15px;
+      font-size: clamp(18px, 4vw, 24px);
+      color: #004085;
+      box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+      text-align: center;
+      line-height: 1.5;
+    }
+
     .rating-button, #start-btn {
       font-size: clamp(12px, 3vw, 14px);
       font-weight: 600;
@@ -78,7 +93,8 @@
 
     .rating-button:disabled,
     #start-btn:disabled,
-    #next-btn:disabled {
+    #next-btn:disabled,
+    #submit-btn:disabled {
       cursor: not-allowed;
       opacity: 0.5;
     }
@@ -101,7 +117,7 @@
     }
 
     #next-btn, #submit-btn {
-      margin: 20px 10px 0;
+      margin: 20px auto;
       padding: 12px 20px;
       font-size: 16px;
       cursor: pointer;
@@ -109,6 +125,7 @@
       border-radius: 4px;
       background-color: #fff;
       touch-action: manipulation;
+      display: block;
     }
 
     #next-btn:hover:not(:disabled), #submit-btn:hover:not(:disabled) {
@@ -208,6 +225,23 @@
       line-height: 1.3;
     }
 
+    #verification-text {
+      font-size: clamp(16px, 4vw, 20px);
+      margin: 20px auto;
+      max-width: 600px;
+      color: #333;
+    }
+
+    #button-container {
+      margin-top: 0;
+    }
+
+    #thank-you-text {
+      font-size: clamp(24px, 6vw, 36px);
+      margin: 20px auto;
+      color: #333;
+    }
+
     @media (max-width: 768px) {
       body {
         padding: 10px 5px;
@@ -294,10 +328,12 @@
     
     <div id="error-container"></div>
     
-    <div>
+    <div id="verification-text"></div>
+    <div id="button-container">
       <button id="next-btn" onclick="goToNextWord()" disabled>Proceed to the next word</button>
-      <button id="submit-btn" onclick="submitResults()" style="display: none;">Submit All Responses</button>
+      <button id="submit-btn" onclick="submitResults()" style="display: none;">Submit</button>
     </div>
+    <div id="thank-you-text" style="display: none;"></div>
   </div>
 
   <script>
@@ -382,7 +418,10 @@
       const noLetterOption = document.getElementById("no-letter-option");
       const reasonInput = document.getElementById("difficultyReason");
       const errorContainer = document.getElementById("error-container");
+      const verificationText = document.getElementById("verification-text");
+      const thankYouText = document.getElementById("thank-you-text");
 
+      wordBox.style.display = "block";
       wordBox.innerHTML = "";
       instruction.style.display = "none";
       nextBtn.disabled = true;
@@ -390,6 +429,8 @@
       noLetterOption.style.display = "none";
       reasonInput.value = "";
       errorContainer.innerHTML = "";
+      verificationText.innerHTML = "";
+      thankYouText.style.display = "none";
       currentPhase = "rating";
       previousRating = null;
       
@@ -419,12 +460,6 @@
         submitBtn.style.display = "none";
         nextBtn.style.display = "inline-block";
         startTime = Date.now();
-      } else {
-        document.getElementById("main-task").classList.add("task-completed");
-        wordBox.innerHTML = "<h6>All words completed!</h6>";
-        submitBtn.style.display = "inline-block";
-        nextBtn.style.display = "none";
-        document.querySelectorAll(".rating-button").forEach(btn => btn.style.display = "none");
       }
     }
 
@@ -622,20 +657,62 @@
     }
 
     function goToNextWord() {
-      if (currentPhase === "text-explanation") {
-        const reasonText = document.getElementById("difficultyReason").value.trim();
-        if (reasonText.length < MIN_EXPLANATION_LENGTH) {
-          showError(`Please provide at least ${MIN_EXPLANATION_LENGTH} characters of explanation.`);
+      if (currentIndex < words.length - 1) {
+        if (currentPhase === "text-explanation") {
+          const reasonText = document.getElementById("difficultyReason").value.trim();
+          if (reasonText.length < MIN_EXPLANATION_LENGTH) {
+            showError(`Please provide at least ${MIN_EXPLANATION_LENGTH} characters of explanation.`);
+            return;
+          }
+          responses[currentIndex].reason = reasonText;
+        } else if (currentPhase === "letter-selection" && responses[currentIndex].clicked_letters.length === 0) {
+          showError("Please select at least one letter or provide a text explanation.");
           return;
         }
-        responses[currentIndex].reason = reasonText;
-      } else if (currentPhase === "letter-selection" && responses[currentIndex].clicked_letters.length === 0) {
-        showError("Please select at least one letter or provide a text explanation.");
-        return;
+        
+        currentIndex++;
+        showWord();
+      } else if (currentIndex === words.length - 1) {
+        // Handle the last word
+        if (currentPhase === "text-explanation") {
+          const reasonText = document.getElementById("difficultyReason").value.trim();
+          if (reasonText.length < MIN_EXPLANATION_LENGTH) {
+            showError(`Please provide at least ${MIN_EXPLANATION_LENGTH} characters of explanation.`);
+            return;
+          }
+          responses[currentIndex].reason = reasonText;
+        } else if (currentPhase === "letter-selection" && responses[currentIndex].clicked_letters.length === 0) {
+          showError("Please select at least one letter or provide a text explanation.");
+          return;
+        }
+        
+        currentIndex++; // Move past the last word
+        // Show analysis directly
+        const submitBtn = document.getElementById("submit-btn");
+        const wordBox = document.getElementById("word");
+        const nextBtn = document.getElementById("next-btn");
+
+        // Calculate and display analysis
+        const counts = Object.values(featureCounts);
+        const maxCount = Math.max(...counts);
+        const mostChallengingFeatures = Object.keys(featureCounts).filter(key => featureCounts[key] === maxCount);
+
+        let feedback;
+        if (maxCount > 0) {
+          const featureText = mostChallengingFeatures.length === 1 
+            ? mostChallengingFeatures[0].replace('_', ' ') 
+            : mostChallengingFeatures.map(f => f.replace('_', ' ')).join(', ');
+          feedback = `Based on your answers, ${featureText} ${mostChallengingFeatures.length === 1 ? 'is' : 'are'} the most challenging feature${mostChallengingFeatures.length === 1 ? '' : 's'} for you.`;
+        } else {
+          feedback = "Based on your answers, no specific features stood out as particularly challenging.";
+        }
+
+        wordBox.innerHTML = `<div class="analysis-box">${feedback}</div>`;
+        submitBtn.style.display = "block";
+        nextBtn.style.display = "none";
+        document.querySelectorAll(".rating-button").forEach(btn => btn.style.display = "none");
+        document.getElementById("difficulty-question").style.display = "none";
       }
-      
-      currentIndex++;
-      showWord();
     }
 
     function getRatingText(rating) {
@@ -653,13 +730,6 @@
       submitBtn.disabled = true;
       submitBtn.textContent = "Submitting...";
 
-      // Find the most repeated feature
-      const counts = Object.values(featureCounts);
-      const maxCount = Math.max(...counts);
-      const mostChallenging = Object.keys(featureCounts).find(key => featureCounts[key] === maxCount);
-
-      const feedback = mostChallenging ? `Based on your responses, the most difficult part of reading for you is ${mostChallenging.replace('_', ' ')}.` : "No specific features stood out as challenging.";
-
       const url = `https://script.google.com/macros/s/AKfycbwtxXb5rlg_AQ8C2HWC-oOFEvgJTcd3QiHLGUllwuy9NPVpRM8bf04A9pgMsRifVx0l/exec?participant=${participantId}`;
 
       fetch(url, {
@@ -667,25 +737,42 @@
         body: JSON.stringify(responses)
       })
       .then(res => res.text())
-      .then(response => {
-        document.body.innerHTML = `
-          <div style="text-align: center; margin-top: 150px; font-family: Arial, sans-serif;">
-            <h1>Thank you for your participation!</h1>
-            <p>${feedback}</p>
-          </div>
-        `;
+      .then(() => {
+        submitBtn.textContent = "Submit";
+        submitBtn.disabled = false;
+        showVerificationCode();
       })
       .catch(error => {
         console.warn("Submission may have failed.");
         console.error("Error details:", error);
-
-        document.body.innerHTML = `
-          <div style="text-align: center; margin-top: 150px; font-family: Arial, sans-serif;">
-            <h1>Thank you for your participation!</h1>
-            <p>${feedback}</p>
-          </div>
-        `;
+        submitBtn.textContent = "Submit";
+        submitBtn.disabled = false;
       });
+    }
+
+    function showVerificationCode() {
+      const submitBtn = document.getElementById("submit-btn");
+      const wordBox = document.getElementById("word");
+      const verificationText = document.getElementById("verification-text");
+      const randomCode = Math.floor(10000 + Math.random() * 90000).toString();
+      wordBox.style.display = "none";
+      verificationText.innerHTML = `Please copy this 5-digit code and enter it in your Prolific submission: ${randomCode}`;
+      submitBtn.textContent = "Proceed";
+      submitBtn.disabled = false;
+      submitBtn.style.display = "block";
+      submitBtn.onclick = showThankYou;
+    }
+
+    function showThankYou() {
+      const wordBox = document.getElementById("word");
+      const submitBtn = document.getElementById("submit-btn");
+      const verificationText = document.getElementById("verification-text");
+      const thankYouText = document.getElementById("thank-you-text");
+      wordBox.style.display = "none";
+      verificationText.innerHTML = "";
+      thankYouText.style.display = "block";
+      thankYouText.innerHTML = "Thank you for your participation!";
+      submitBtn.style.display = "none";
     }
 
     document.addEventListener('keydown', (event) => {
@@ -715,7 +802,11 @@
             goToNextWord();
           } else if (!submitBtn.disabled && submitBtn.style.display !== "none") {
             event.preventDefault();
-            submitResults();
+            if (submitBtn.textContent === "Submit my responses") {
+              submitResults();
+            } else if (submitBtn.textContent === "The code is copied to the Prolific" && submitBtn.onclick === showThankYou) {
+              showThankYou();
+            }
           }
         }
       }
