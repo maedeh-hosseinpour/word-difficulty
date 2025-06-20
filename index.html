@@ -658,7 +658,7 @@
       const maxCount = Math.max(...counts);
       const mostChallenging = Object.keys(featureCounts).find(key => featureCounts[key] === maxCount);
 
-      const feedback = mostChallenging ? `Based on your answers, ${mostChallenging.replace('_', ' ')} seems to be the most challenging feature for you.` : "No specific features stood out as challenging.";
+      const feedback = mostChallenging ? `Based on your responses, the most difficult part of reading for you is ${mostChallenging.replace('_', ' ')}.` : "No specific features stood out as challenging.";
 
       const url = `https://script.google.com/macros/s/AKfycbwtxXb5rlg_AQ8C2HWC-oOFEvgJTcd3QiHLGUllwuy9NPVpRM8bf04A9pgMsRifVx0l/exec?participant=${participantId}`;
 
