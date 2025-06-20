@@ -3,8 +3,294 @@
 <head>
   <title>Word Difficulty Rating</title>
   <style>
-    /* ... [keep all your existing CSS, unchanged, from your original code] ... */
-    /* For brevity, you can paste your original CSS block here */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px 10px;
+      background: #fafafa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #word {
+      width: 100%;
+      max-width: 520px;
+      min-height: 100px;
+      margin: 20px auto;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      font-size: clamp(32px, 8vw, 48px);
+      padding: 20px 10px;
+    }
+
+    .word-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      line-height: 1.2;
+    }
+
+    .analysis-box {
+      width: 90%;
+      max-width: 480px;
+      min-height: 80px;
+      margin: 20px auto 10px;
+      background: #f8f9fa;
+      border: 2px solid #007bff;
+      border-radius: 8px;
+      padding: 15px;
+      font-size: clamp(18px, 4vw, 24px);
+      color: #004085;
+      box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .rating-button, #start-btn {
+      font-size: clamp(12px, 3vw, 14px);
+      font-weight: 600;
+      color: #555;
+      padding: 12px 8px;
+      margin: 6px 4px;
+      min-width: 80px;
+      cursor: pointer;
+      border: solid 1px #e7e7e7;
+      border-radius: 2px;
+      background-color: #fff;
+      transition: background-color 0.2s;
+      flex: 1;
+      max-width: 150px;
+    }
+
+    #rating-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 10px;
+    }
+
+    .rating-button:hover:not(:disabled),
+    #start-btn:hover:enabled {
+      background-color: #fafafa;
+      border: solid 1px #ccc;
+    }
+
+    .rating-button:disabled,
+    #start-btn:disabled,
+    #next-btn:disabled,
+    #submit-btn:disabled,
+    #proceed-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    .rating-button.selected {
+      background-color: #e0e0e0;
+      border: solid 1px #999;
+    }
+
+    .letter.selectable { 
+      cursor: pointer; 
+      transition: color 0.2s, font-size 0.2s;
+      touch-action: manipulation;
+    }
+    .letter.selectable:hover { color: rgb(20, 88, 197); }
+    .letter.clicked { 
+      color: rgb(200, 17, 17); 
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    #next-btn, #submit-btn, #proceed-btn {
+      margin: 20px auto;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #fff;
+      touch-action: manipulation;
+      display: block;
+    }
+
+    #next-btn:hover:not(:disabled), #submit-btn:hover:not(:disabled), #proceed-btn:hover:not(:disabled) {
+      background-color: #f5f5f5;
+    }
+
+    #rating-instruction {
+      font-size: clamp(14px, 4vw, 17px);
+      color: #555;
+      margin: 15px 10px;
+      line-height: 1.4;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .clear-text {
+      color: gray;
+      cursor: pointer;
+      text-decoration: underline;
+      touch-action: manipulation;
+    }
+
+    #participantId {
+      width: 100%;
+      max-width: 400px;
+      height: 40px;
+      font-size: 16px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin: 0 auto;
+    }
+
+    #text-explanation {
+      display: none;
+      margin: 25px 10px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #difficultyReason {
+      width: 100%;
+      min-height: 120px;
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 12px;
+      resize: vertical;
+      line-height: 1.4;
+    }
+
+    #no-letter-option {
+      font-size: clamp(12px, 3.5vw, 14px);
+      color: #555;
+      margin: 25px 10px;
+      cursor: pointer;
+      text-decoration: underline;
+      touch-action: manipulation;
+      line-height: 1.4;
+    }
+
+    #no-letter-option:hover {
+      color: #333;
+    }
+
+    .error-message {
+      color: #d32f2f;
+      font-size: clamp(12px, 3vw, 14px);
+      margin: 10px;
+      line-height: 1.4;
+    }
+
+    .success-message {
+      color: #2e7d32;
+      font-size: clamp(14px, 3.5vw, 16px);
+      margin: 10px;
+      line-height: 1.4;
+    }
+
+    .task-completed #difficulty-question {
+      display: none !important;
+    }
+
+    #char-count {
+      font-size: 12px;
+      color: #666;
+      margin-top: 8px;
+      text-align: right;
+    }
+
+    h2 {
+      font-size: clamp(18px, 5vw, 24px);
+      margin: 20px 10px;
+      line-height: 1.3;
+    }
+
+    #verification-text {
+      font-size: clamp(16px, 4vw, 20px);
+      margin: 20px auto;
+      max-width: 600px;
+      color: #333;
+    }
+
+    #button-container {
+      margin-top: 0;
+    }
+
+    #thank-you-text {
+      font-size: clamp(24px, 6vw, 36px);
+      margin: 20px auto;
+      color: #333;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px 5px;
+      }
+      
+      #word {
+        margin: 15px auto;
+        padding: 15px 5px;
+      }
+      
+      .rating-button, #start-btn {
+        min-width: 70px;
+        padding: 10px 6px;
+        margin: 4px 2px;
+      }
+      
+      #rating-buttons {
+        gap: 4px;
+        padding: 0 5px;
+      }
+      
+      #difficultyReason {
+        min-height: 100px;
+        font-size: 16px;
+      }
+      
+      #participantId {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .rating-button {
+        font-size: 11px;
+        padding: 8px 4px;
+        min-width: 60px;
+      }
+      
+      #rating-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .rating-button {
+        max-width: 200px;
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -47,9 +333,9 @@
     <div id="button-container">
       <button id="next-btn" onclick="goToNextWord()" disabled>Proceed to the next word</button>
       <button id="submit-btn" onclick="submitResults()" style="display: none;">Submit your responses</button>
+      <button id="proceed-btn" onclick="showThankYou()" style="display: none;">Proceed to the final page</button>
     </div>
     <div id="thank-you-text" style="display: none;"></div>
-    <button id="proceed-final-btn" style="display:none; margin:30px auto 0;">Proceed to the next page</button>
   </div>
 
   <script>
@@ -130,17 +416,20 @@
       const instruction = document.getElementById("rating-instruction");
       const nextBtn = document.getElementById("next-btn");
       const submitBtn = document.getElementById("submit-btn");
+      const proceedBtn = document.getElementById("proceed-btn");
       const explanationBox = document.getElementById("text-explanation");
       const noLetterOption = document.getElementById("no-letter-option");
       const reasonInput = document.getElementById("difficultyReason");
       const errorContainer = document.getElementById("error-container");
       const verificationText = document.getElementById("verification-text");
       const thankYouText = document.getElementById("thank-you-text");
-      const proceedFinalBtn = document.getElementById('proceed-final-btn');
 
       wordBox.style.display = "block";
       wordBox.innerHTML = "";
       instruction.style.display = "none";
+      nextBtn.disabled = true;
+      submitBtn.style.display = "none";
+      proceedBtn.style.display = "none";
       explanationBox.style.display = "none";
       noLetterOption.style.display = "none";
       reasonInput.value = "";
@@ -155,17 +444,6 @@
         btn.disabled = false;
         btn.style.display = "inline-block";
       });
-
-      // --------- MODIFICATION #1 ---------
-      proceedFinalBtn.style.display = "none"; // Always hide at start
-      if (currentIndex === words.length - 1) {
-        submitBtn.style.display = "inline-block";
-        nextBtn.style.display = "none";
-      } else {
-        submitBtn.style.display = "none";
-        nextBtn.style.display = "inline-block";
-      }
-      // ------------------------------------
 
       if (currentIndex < words.length) {
         const currentWord = words[currentIndex].word;
@@ -184,6 +462,13 @@
         
         initializeResponse(currentIndex);
         
+        if (currentIndex === words.length - 1) {
+          submitBtn.style.display = "inline-block";
+          nextBtn.style.display = "none";
+        } else {
+          submitBtn.style.display = "none";
+          nextBtn.style.display = "inline-block";
+        }
         startTime = Date.now();
       }
     }
@@ -244,6 +529,7 @@
       if (rating <= 2) {
         currentPhase = "rating";
         document.getElementById("next-btn").disabled = false;
+        document.getElementById("submit-btn").disabled = false;
       } else {
         currentPhase = "letter-selection";
         document.getElementById("rating-instruction").style.display = "block";
@@ -260,6 +546,7 @@
         }
         
         document.getElementById("next-btn").disabled = !(hasLetterSelections || hasExplanation);
+        document.getElementById("submit-btn").disabled = !(hasLetterSelections || hasExplanation);
       }
       
       clearError();
@@ -355,6 +642,7 @@
 
     function checkNextButtonState() {
       const nextBtn = document.getElementById("next-btn");
+      const submitBtn = document.getElementById("submit-btn");
       let canProceed = false;
       
       if (currentPhase === "rating") {
@@ -369,6 +657,7 @@
       }
       
       nextBtn.disabled = !canProceed;
+      submitBtn.disabled = !canProceed;
     }
 
     function showError(message) {
@@ -398,7 +687,6 @@
         currentIndex++;
         showWord();
       } else if (currentIndex === words.length - 1) {
-        // Handle the last word
         if (currentPhase === "text-explanation") {
           const reasonText = document.getElementById("difficultyReason").value.trim();
           if (reasonText.length < MIN_EXPLANATION_LENGTH) {
@@ -411,9 +699,9 @@
           return;
         }
         
-        currentIndex++; // Move past the last word
         // Show analysis directly
         const submitBtn = document.getElementById("submit-btn");
+        const proceedBtn = document.getElementById("proceed-btn");
         const wordBox = document.getElementById("word");
         const nextBtn = document.getElementById("next-btn");
 
@@ -434,13 +722,10 @@
 
         wordBox.innerHTML = `<div class="analysis-box">${feedback}</div>`;
         submitBtn.style.display = "block";
+        proceedBtn.style.display = "none";
         nextBtn.style.display = "none";
         document.querySelectorAll(".rating-button").forEach(btn => btn.style.display = "none");
         document.getElementById("difficulty-question").style.display = "none";
-
-        // --------- MODIFICATION #2 ---------
-        document.getElementById("proceed-final-btn").style.display = "block";
-        // ------------------------------------
       }
     }
 
@@ -476,37 +761,59 @@
         console.error("Error details:", error);
         submitBtn.textContent = "Submit";
         submitBtn.disabled = false;
+        showError("Submission failed. Please try again.");
       });
     }
 
     function showVerificationCode() {
       const submitBtn = document.getElementById("submit-btn");
+      const proceedBtn = document.getElementById("proceed-btn");
       const wordBox = document.getElementById("word");
       const verificationText = document.getElementById("verification-text");
+      const thankYouText = document.getElementById("thank-you-text");
+
+      // Calculate analysis
+      const counts = Object.values(featureCounts);
+      const maxCount = Math.max(...counts);
+      const mostChallengingFeatures = Object.keys(featureCounts).filter(key => featureCounts[key] === maxCount);
+
+      let feedback;
+      if (maxCount > 0) {
+        const featureText = mostChallengingFeatures.length === 1 
+          ? mostChallengingFeatures[0].replace('_', ' ') 
+          : mostChallengingFeatures.map(f => f.replace('_', ' ')).join(', ');
+        feedback = `Based on your answers, ${featureText} ${mostChallengingFeatures.length === 1 ? 'is' : 'are'} the most challenging ${mostChallengingFeatures.length === 1 ? '' : 's'} for you.`;
+      } else {
+        feedback = "Based on your answers, no specific features stood out as particularly challenging.";
+      }
+
       const randomCode = Math.floor(10000 + Math.random() * 90000).toString();
-      wordBox.style.display = "none";
+      wordBox.innerHTML = `<div class="analysis-box">${feedback}</div>`;
       verificationText.innerHTML = `Please copy this 5-digit code and enter it in your Prolific submission:
       <br>
       <div style="text-align: center; margin-top: 10px;">
-      <span style="font-size: 2em; font-weight: bold;">${randomCode}</span>
+        <span style="font-size: 2em; font-weight: bold;">${randomCode}</span>
       </div>`;
-
-      submitBtn.textContent = "Continue to final page";
-      submitBtn.disabled = false;
-      submitBtn.style.display = "block";
-      submitBtn.onclick = showThankYou;
+      proceedBtn.style.display = "block";
+      submitBtn.style.display = "none";
+      thankYouText.style.display = "none";
+      document.getElementById("difficulty-question").style.display = "none";
+      document.querySelectorAll(".rating-button").forEach(btn => btn.style.display = "none");
     }
 
     function showThankYou() {
       const wordBox = document.getElementById("word");
       const submitBtn = document.getElementById("submit-btn");
+      const proceedBtn = document.getElementById("proceed-btn");
       const verificationText = document.getElementById("verification-text");
       const thankYouText = document.getElementById("thank-you-text");
+      
       wordBox.style.display = "none";
       verificationText.innerHTML = "";
       thankYouText.style.display = "block";
       thankYouText.innerHTML = "Thank you for your participation!";
       submitBtn.style.display = "none";
+      proceedBtn.style.display = "none";
     }
 
     document.addEventListener('keydown', (event) => {
@@ -530,17 +837,17 @@
           
           const nextBtn = document.getElementById("next-btn");
           const submitBtn = document.getElementById("submit-btn");
+          const proceedBtn = document.getElementById("proceed-btn");
           
           if (!nextBtn.disabled && nextBtn.style.display !== "none") {
             event.preventDefault();
             goToNextWord();
           } else if (!submitBtn.disabled && submitBtn.style.display !== "none") {
             event.preventDefault();
-            if (submitBtn.textContent === "Submit") {
-              submitResults();
-            } else if (submitBtn.textContent === "Proceed" && submitBtn.onclick === showThankYou) {
-              showThankYou();
-            }
+            submitResults();
+          } else if (!proceedBtn.disabled && proceedBtn.style.display !== "none") {
+            event.preventDefault();
+            showThankYou();
           }
         }
       }
