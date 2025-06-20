@@ -802,9 +802,9 @@
             goToNextWord();
           } else if (!submitBtn.disabled && submitBtn.style.display !== "none") {
             event.preventDefault();
-            if (submitBtn.textContent === "Submit my responses") {
+            if (submitBtn.textContent === "Submit") {
               submitResults();
-            } else if (submitBtn.textContent === "The code is copied to the Prolific" && submitBtn.onclick === showThankYou) {
+            } else if (submitBtn.textContent === "Proceed" && submitBtn.onclick === showThankYou) {
               showThankYou();
             }
           }
