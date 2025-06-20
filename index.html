@@ -756,7 +756,12 @@
       const verificationText = document.getElementById("verification-text");
       const randomCode = Math.floor(10000 + Math.random() * 90000).toString();
       wordBox.style.display = "none";
-      verificationText.innerHTML = `Please copy this 5-digit code and enter it in your Prolific submission: ${randomCode}`;
+      verificationText.innerHTML = `Please copy this 5-digit code and enter it in your Prolific submission:
+      <br>
+      <div style="text-align: center; margin-top: 10px;">
+      <span style="font-size: 2em; font-weight: bold;">${randomCode}</span>
+      </div>`;
+
       submitBtn.textContent = "Proceed";
       submitBtn.disabled = false;
       submitBtn.style.display = "block";
