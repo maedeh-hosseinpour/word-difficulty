@@ -261,7 +261,7 @@
 ,{"word":"corps","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":1,"vowel_digraphs":0,"has_homophones":1,"difficult_orthography":0,"score":2,"zipf":4.27,"zipf_bin":1,"subset":11}
 ,{"word":"corpses","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":1,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":3.5,"zipf_bin":0,"subset":21}
 ,{"word":"could","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":1,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":6.06,"zipf_bin":3,"subset":11}
-,{"word":"couldn","long_words":0,"diagraphs":0,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":1,"has_homophones":0,"difficult_orthography":0,"score":2,"zipf":2.74,"zipf_bin":0,"subset":19}
+,{"word":"couldn't","long_words":0,"diagraphs":0,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":1,"has_homophones":0,"difficult_orthography":0,"score":2,"zipf":2.74,"zipf_bin":0,"subset":19}
 ,{"word":"council","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":1,"has_homophones":1,"difficult_orthography":0,"score":2,"zipf":5.08,"zipf_bin":3,"subset":18}
 ,{"word":"counterexamples","long_words":0,"diagraphs":0,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":1,"has_homophones":0,"difficult_orthography":0,"score":2,"zipf":2.04,"zipf_bin":0,"subset":4}
 ,{"word":"countries","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":1,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":5.13,"zipf_bin":3,"subset":4}
@@ -312,7 +312,7 @@
 ,{"word":"develop","long_words":1,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":4.75,"zipf_bin":2,"subset":7}
 ,{"word":"developing","long_words":1,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":4.66,"zipf_bin":2,"subset":7}
 ,{"word":"did","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":1,"score":1,"zipf":5.96,"zipf_bin":3,"subset":22}
-,{"word":"didn","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":1,"score":1,"zipf":3.29,"zipf_bin":0,"subset":23}
+,{"word":"didn't'","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":1,"score":1,"zipf":3.29,"zipf_bin":0,"subset":23}
 ,{"word":"died","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":1,"has_homophones":1,"difficult_orthography":1,"score":3,"zipf":5.2,"zipf_bin":3,"subset":22}
 ,{"word":"different","long_words":1,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":5.59,"zipf_bin":3,"subset":13}
 ,{"word":"differently","long_words":1,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":4.23,"zipf_bin":1,"subset":23}
@@ -488,7 +488,7 @@
 ,{"word":"guerilla","long_words":0,"diagraphs":0,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":0,"has_homophones":1,"difficult_orthography":0,"score":2,"zipf":2.9,"zipf_bin":0,"subset":20}
 ,{"word":"guevara","long_words":0,"diagraphs":0,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":2.8,"zipf_bin":0,"subset":5}
 ,{"word":"had","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":1,"score":1,"zipf":6.33,"zipf_bin":3,"subset":12}
-,{"word":"hadn","long_words":0,"diagraphs":0,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":1,"score":2,"zipf":2.12,"zipf_bin":0,"subset":5}
+,{"word":"hadn't","long_words":0,"diagraphs":0,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":1,"score":2,"zipf":2.12,"zipf_bin":0,"subset":5}
 ,{"word":"hair","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":1,"has_homophones":1,"difficult_orthography":0,"score":2,"zipf":5.08,"zipf_bin":3,"subset":4}
 ,{"word":"hand","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":1,"score":1,"zipf":5.41,"zipf_bin":3,"subset":3}
 ,{"word":"hands","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":1,"score":1,"zipf":5.16,"zipf_bin":3,"subset":22}
@@ -643,7 +643,7 @@
 ,{"word":"mean","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":1,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":5.53,"zipf_bin":3,"subset":1}
 ,{"word":"means","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":1,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":5.44,"zipf_bin":3,"subset":21}
 ,{"word":"meant","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":1,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":4.94,"zipf_bin":2,"subset":13}
-,{"word":"medger","long_words":0,"diagraphs":0,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":0.0,"zipf_bin":0,"subset":8}
+,{"word":"medgar","long_words":0,"diagraphs":0,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":0.0,"zipf_bin":0,"subset":8}
 ,{"word":"medical","long_words":1,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":5.16,"zipf_bin":3,"subset":11}
 ,{"word":"medieval","long_words":1,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":1,"has_homophones":0,"difficult_orthography":0,"score":2,"zipf":4.05,"zipf_bin":1,"subset":20}
 ,{"word":"merchant","long_words":0,"diagraphs":1,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":4.08,"zipf_bin":1,"subset":14}
@@ -925,7 +925,6 @@
 ,{"word":"shows","long_words":0,"diagraphs":1,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":5.23,"zipf_bin":3,"subset":23}
 ,{"word":"similar","long_words":1,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":5.21,"zipf_bin":3,"subset":21}
 ,{"word":"sixth","long_words":0,"diagraphs":1,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":4.38,"zipf_bin":1,"subset":22}
-,{"word":"skyinto","long_words":0,"diagraphs":0,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":0.0,"zipf_bin":0,"subset":18}
 ,{"word":"slight","long_words":0,"diagraphs":1,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":1,"difficult_orthography":0,"score":2,"zipf":4.22,"zipf_bin":1,"subset":19}
 ,{"word":"sloth","long_words":0,"diagraphs":1,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":3.1,"zipf_bin":0,"subset":9}
 ,{"word":"snapped","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":1,"score":1,"zipf":3.81,"zipf_bin":1,"subset":13}
@@ -1092,7 +1091,7 @@
 ,{"word":"week","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":1,"difficult_orthography":0,"score":1,"zipf":5.56,"zipf_bin":3,"subset":16}
 ,{"word":"weigh","long_words":0,"diagraphs":1,"not_freq_words":0,"silent_letters":1,"vowel_digraphs":1,"has_homophones":1,"difficult_orthography":1,"score":5,"zipf":3.99,"zipf_bin":1,"subset":2}
 ,{"word":"weight","long_words":0,"diagraphs":1,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":1,"has_homophones":1,"difficult_orthography":0,"score":3,"zipf":5.02,"zipf_bin":2,"subset":7}
-,{"word":"weren","long_words":0,"diagraphs":0,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":2.21,"zipf_bin":0,"subset":18}
+,{"word":"weren't","long_words":0,"diagraphs":0,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":2.21,"zipf_bin":0,"subset":18}
 ,{"word":"what","long_words":0,"diagraphs":1,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":6.38,"zipf_bin":3,"subset":7}
 ,{"word":"whatever","long_words":0,"diagraphs":1,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":5.14,"zipf_bin":3,"subset":1}
 ,{"word":"when","long_words":0,"diagraphs":1,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":6.37,"zipf_bin":3,"subset":13}
@@ -1119,7 +1118,7 @@
 ,{"word":"worshiped","long_words":0,"diagraphs":1,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":2,"zipf":2.9,"zipf_bin":0,"subset":1}
 ,{"word":"worth","long_words":0,"diagraphs":1,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":5.16,"zipf_bin":3,"subset":19}
 ,{"word":"would","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":0,"vowel_digraphs":1,"has_homophones":1,"difficult_orthography":0,"score":2,"zipf":6.27,"zipf_bin":3,"subset":6}
-,{"word":"wouldn","long_words":0,"diagraphs":0,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":1,"has_homophones":0,"difficult_orthography":0,"score":2,"zipf":2.8,"zipf_bin":0,"subset":7}
+,{"word":"wouldn't","long_words":0,"diagraphs":0,"not_freq_words":1,"silent_letters":0,"vowel_digraphs":1,"has_homophones":0,"difficult_orthography":0,"score":2,"zipf":2.8,"zipf_bin":0,"subset":7}
 ,{"word":"wren","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":1,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":3.09,"zipf_bin":0,"subset":11}
 ,{"word":"writes","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":1,"vowel_digraphs":0,"has_homophones":1,"difficult_orthography":0,"score":2,"zipf":4.36,"zipf_bin":1,"subset":4}
 ,{"word":"writing","long_words":0,"diagraphs":0,"not_freq_words":0,"silent_letters":1,"vowel_digraphs":0,"has_homophones":0,"difficult_orthography":0,"score":1,"zipf":5.07,"zipf_bin":3,"subset":18}
