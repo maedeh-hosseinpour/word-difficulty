@@ -127,8 +127,8 @@
     }
 
     #next-btn, #submit-btn, #proceed-btn {
-      margin: 10px auto; /* Reduced margin for mobile */
-      padding: 12px 24px;
+      margin: 20px auto;
+      padding: 16px 32px;
       font-size: 18px;
       cursor: pointer;
       border: 2px solid #ddd;
@@ -234,7 +234,6 @@
     }
 
     #button-container {
-      position: relative;
       margin-top: 20px;
       padding-bottom: 20px; /* Ensure space at the bottom */
     }
@@ -268,15 +267,6 @@
       
       #text-explanation {
         max-height: 30vh; /* Further reduce on smaller screens */
-      }
-      
-      #button-container {
-        position: absolute; /* Change to absolute for dynamic positioning */
-        bottom: 20px; /* Space from bottom */
-        width: 100%;
-        padding: 0 10px;
-        box-sizing: border-box;
-        z-index: 10; /* Ensure it stays above other content */
       }
       
       #participantId {
@@ -469,7 +459,6 @@
     });
 
     document.body.style.overflowY = "hidden"; // Reset to no scrolling
-    document.getElementById("button-container").style.position = "relative"; // Reset button position
 
     if (currentIndex < words.length) {
       const currentWord = words[currentIndex].word;
@@ -637,7 +626,6 @@
     
     checkNextButtonState();
     document.body.style.overflowY = "hidden"; // Reset to no scrolling
-    document.getElementById("button-container").style.position = "relative"; // Reset button position
   }
 
   function showExplanationBox() {
@@ -646,12 +634,8 @@
     explanationBox.style.display = "block";
     updateCharCount();
     checkNextButtonState();
-    document.body.style.overflowY = "auto"; // Enable body scrolling
+    document.body.style.overflowY = "auto"; // Enable vertical scrolling
     document.body.style.webkitOverflowScrolling = "touch"; // Smooth scrolling on iOS
-    if (window.innerWidth <= 768) {
-      document.getElementById("button-container").style.position = "absolute"; // Position below content
-      document.getElementById("button-container").style.bottom = "20px"; // Space from bottom
-    }
   }
 
   function updateCharCount() {
