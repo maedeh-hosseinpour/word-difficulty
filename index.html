@@ -18,8 +18,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      overflow-y: auto; /* Enable vertical scrolling */
-      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+      overflow-y: hidden; /* Default to no scrolling */
     }
     #main-task {
       position: fixed;
@@ -128,8 +127,8 @@
     }
 
     #next-btn, #submit-btn, #proceed-btn {
-      margin: 20px auto;
-      padding: 16px 32px;
+      margin: 10px auto; /* Reduced margin for mobile */
+      padding: 12px 24px;
       font-size: 18px;
       cursor: pointer;
       border: 2px solid #ddd;
@@ -180,6 +179,8 @@
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      max-height: 40vh; /* Limit textbox height on mobile */
+      overflow-y: auto; /* Allow scrolling within textbox if needed */
     }
 
     #difficultyReason {
@@ -233,7 +234,9 @@
     }
 
     #button-container {
-      margin-top: 0;
+      position: relative;
+      margin-top: 20px;
+      padding-bottom: 20px; /* Ensure space at the bottom */
     }
 
     #thank-you-text {
@@ -263,9 +266,16 @@
         padding: 0 5px;
       }
       
-      #difficultyReason {
-        min-height: 100px;
-        font-size: 16px;
+      #text-explanation {
+        max-height: 30vh; /* Further reduce on smaller screens */
+      }
+      
+      #button-container {
+        position: fixed;
+        bottom: 10px; /* Stick to bottom on mobile */
+        width: 100%;
+        padding: 0 10px;
+        box-sizing: border-box;
       }
       
       #participantId {
@@ -457,6 +467,8 @@
       btn.style.display = "inline-block";
     });
 
+    document.body.style.overflowY = "hidden"; // Reset to no scrolling
+
     if (currentIndex < words.length) {
       const currentWord = words[currentIndex].word;
       const wordContainer = document.createElement("div");
@@ -622,6 +634,7 @@
     document.getElementById("submit-btn").disabled = true;
     
     checkNextButtonState();
+    document.body.style.overflowY = "hidden"; // Reset to no scrolling
   }
 
   function showExplanationBox() {
@@ -630,6 +643,11 @@
     explanationBox.style.display = "block";
     updateCharCount();
     checkNextButtonState();
+    document.body.style.overflowY = "auto"; // Enable body scrolling
+    document.body.style.webkitOverflowScrolling = "touch"; // Smooth scrolling on iOS
+    if (window.innerWidth <= 768) {
+      document.getElementById("button-container").style.display = "block"; // Ensure button is visible
+    }
   }
 
   function updateCharCount() {
