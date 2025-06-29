@@ -271,11 +271,12 @@
       }
       
       #button-container {
-        position: fixed;
-        bottom: 10px; /* Stick to bottom on mobile */
+        position: absolute; /* Change to absolute for dynamic positioning */
+        bottom: 20px; /* Space from bottom */
         width: 100%;
         padding: 0 10px;
         box-sizing: border-box;
+        z-index: 10; /* Ensure it stays above other content */
       }
       
       #participantId {
@@ -468,6 +469,7 @@
     });
 
     document.body.style.overflowY = "hidden"; // Reset to no scrolling
+    document.getElementById("button-container").style.position = "relative"; // Reset button position
 
     if (currentIndex < words.length) {
       const currentWord = words[currentIndex].word;
@@ -635,6 +637,7 @@
     
     checkNextButtonState();
     document.body.style.overflowY = "hidden"; // Reset to no scrolling
+    document.getElementById("button-container").style.position = "relative"; // Reset button position
   }
 
   function showExplanationBox() {
@@ -646,7 +649,8 @@
     document.body.style.overflowY = "auto"; // Enable body scrolling
     document.body.style.webkitOverflowScrolling = "touch"; // Smooth scrolling on iOS
     if (window.innerWidth <= 768) {
-      document.getElementById("button-container").style.display = "block"; // Ensure button is visible
+      document.getElementById("button-container").style.position = "absolute"; // Position below content
+      document.getElementById("button-container").style.bottom = "20px"; // Space from bottom
     }
   }
 
