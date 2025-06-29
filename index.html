@@ -17,12 +17,10 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      overflow-y: hidden; /* Default to no scrolling */
+      justify-content: flex-start; /* Changed to flex-start to allow content to stack */
     }
     #main-task {
-      position: fixed;
-      top: 0;
+      position: relative; /* Changed from fixed to relative to allow body scrolling */
       width: 100%;
       padding: 20px;
       box-sizing: border-box;
@@ -458,7 +456,7 @@
       btn.style.display = "inline-block";
     });
 
-    document.body.style.overflowY = "hidden"; // Reset to no scrolling
+    document.body.style.overflowY = "hidden"; // Disable scrolling when textbox is hidden
 
     if (currentIndex < words.length) {
       const currentWord = words[currentIndex].word;
@@ -625,7 +623,7 @@
     document.getElementById("submit-btn").disabled = true;
     
     checkNextButtonState();
-    document.body.style.overflowY = "hidden"; // Reset to no scrolling
+    document.body.style.overflowY = "hidden"; // Disable scrolling when textbox is hidden
   }
 
   function showExplanationBox() {
