@@ -723,7 +723,7 @@
           explanationBox.style.display = introIndex === 2 ? "block" : "none";
           introMessage.textContent = introIndex === 1
             ? "Now, click on the letters you found hard to read. e.g. click on m and p in 'sample'."
-            : "Please provide a text explanation for why you rated this word as " + (rating === 3 ? "'Hard'" : "'Very Hard'") + " in the text box below.";
+            : "Now explain why you rated this word as " + (rating === 3 ? "'Hard'" : "'Very Hard'") + " in the text box above.";
           if (introIndex !== 2) {
             enableLetterSelection();
             currentPhase = "letter-selection";
