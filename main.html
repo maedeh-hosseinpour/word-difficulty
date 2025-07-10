@@ -290,7 +290,7 @@
       }
     }
 
-    .post-survey-link {
+    .-survey-link {
       cursor: pointer;
       color: #0066cc;
       text-decoration: underline;
@@ -298,7 +298,7 @@
       margin-top: 10px;
       display: inline-block;
     }
-    .post-survey-link:hover {
+    .-survey-link:hover {
       color: #003366;
     }
   </style>
@@ -836,7 +836,7 @@
 
     const randomCode = Math.floor(10000 + Math.random() * 90000).toString();
     wordBox.innerHTML = `<div class="analysis-box">${feedback}</div>`;
-    verificationText.innerHTML = `Please copy this 5-digit code and enter it in the Post-Survey:
+    verificationText.innerHTML = `Please copy this 5-digit code and enter it in the Post-Survey and Prolofic website:
     <br>
     <div style="text-align: center; margin-top: 10px;">
       <span style="font-size: 2em; font-weight: bold;">${randomCode}</span>
