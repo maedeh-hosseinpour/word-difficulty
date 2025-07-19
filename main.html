@@ -783,6 +783,11 @@
   }
 
   function submitResults() {
+    document.querySelectorAll(".rating-button").forEach(btn => {
+        btn.disabled = true;
+    });
+    document.getElementById("next-btn").disabled = true;
+
     const submitBtn = document.getElementById("submit-btn");
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting...";
@@ -790,24 +795,23 @@
     const url = `https://script.google.com/macros/s/AKfycbwtxXb5rlg_AQ8C2HWC-oOFEvgJTcd3QiHLGUllwuy9NPVpRM8bf04A9pgMsRifVx0l/exec?participant=${participantId}`;
 
     fetch(url, {
-      method: "POST",
-      body: JSON.stringify(responses)
+        method: "POST",
+        body: JSON.stringify(responses)
     })
     .then(res => res.text())
     .then(() => {
-      submitBtn.textContent = "Submit";
-      submitBtn.disabled = false;
-      showVerificationCode();
+        submitBtn.textContent = "Submit";
+        submitBtn.disabled = false;
+        showVerificationCode();
     })
     .catch(error => {
-      console.warn("Submission may have failed.");
-      console.error("Error details:", error);
-      submitBtn.textContent = "Submit";
-      submitBtn.disabled = false;
-      showError("Submission failed. Please try again.");
+        console.warn("Submission may have failed.");
+        console.error("Error details:", error);
+        submitBtn.textContent = "Submit";
+        submitBtn.disabled = false;
+        showError("Submission failed. Please try again.");
     });
-  }
-
+}
   function showVerificationCode() {
     const submitBtn = document.getElementById("submit-btn");
     const wordBox = document.getElementById("word");
