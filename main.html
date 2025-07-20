@@ -361,6 +361,7 @@
     silent_letters: 0,
     vowel_digraphs: 0
   };
+  let hasSubmitted = false;
 
   async function loadWords() {
     try {
@@ -783,35 +784,57 @@
   }
 
   function submitResults() {
+    // Prevent multiple submissions
+    if (hasSubmitted) {
+      console.log("Submission already attempted, ignoring.");
+      return;
+    }
+
+    // Set submission flag
+    hasSubmitted = true;
+
+    // Disable all interactive elements
     document.querySelectorAll(".rating-button").forEach(btn => {
-        btn.disabled = true;
+      btn.disabled = true;
+      btn.onclick = null; // Remove click handlers
     });
     document.getElementById("next-btn").disabled = true;
-
+    document.getElementById("next-btn").onclick = null; // Remove click handler
     const submitBtn = document.getElementById("submit-btn");
     submitBtn.disabled = true;
+    submitBtn.onclick = null; // Remove click handler
+    document.getElementById("difficultyReason").disabled = true; // Disable textarea
+    const letters = document.querySelectorAll("#word .letter");
+    letters.forEach(span => {
+      span.classList.remove("selectable", "clicked");
+      span.onclick = null; // Remove letter click handlers
+    });
+    const clearLink = document.getElementById("clear");
+    if (clearLink) clearLink.onclick = null;
+    const noLetterOption = document.getElementById("no-letter-option");
+    if (noLetterOption) noLetterOption.onclick = null;
+
     submitBtn.textContent = "Submitting...";
 
     const url = `https://script.google.com/macros/s/AKfycbwtxXb5rlg_AQ8C2HWC-oOFEvgJTcd3QiHLGUllwuy9NPVpRM8bf04A9pgMsRifVx0l/exec?participant=${participantId}`;
 
     fetch(url, {
-        method: "POST",
-        body: JSON.stringify(responses)
+      method: "POST",
+      body: JSON.stringify(responses)
     })
     .then(res => res.text())
     .then(() => {
-        submitBtn.textContent = "Submit";
-        submitBtn.disabled = false;
-        showVerificationCode();
+      submitBtn.textContent = "Submitted";
+      showVerificationCode();
     })
     .catch(error => {
-        console.warn("Submission may have failed.");
-        console.error("Error details:", error);
-        submitBtn.textContent = "Submit";
-        submitBtn.disabled = false;
-        showError("Submission failed. Please try again.");
+      console.warn("Submission may have failed.");
+      console.error("Error details:", error);
+      submitBtn.textContent = "Submission Failed";
+      showError("Submission failed. Please contact support or try refreshing the page.");
     });
-}
+  }
+
   function showVerificationCode() {
     const submitBtn = document.getElementById("submit-btn");
     const wordBox = document.getElementById("word");
@@ -819,6 +842,26 @@
     const thankYouText = document.getElementById("thank-you-text");
     const instruction = document.getElementById("rating-instruction");
     const explanationBox = document.getElementById("text-explanation");
+
+    // Ensure all interactive elements remain disabled
+    document.getElementById("difficultyReason").disabled = true;
+    document.querySelectorAll(".rating-button").forEach(btn => {
+      btn.disabled = true;
+      btn.onclick = null;
+    });
+    document.getElementById("next-btn").disabled = true;
+    document.getElementById("next-btn").onclick = null;
+    submitBtn.disabled = true;
+    submitBtn.onclick = null;
+    const letters = document.querySelectorAll("#word .letter");
+    letters.forEach(span => {
+      span.classList.remove("selectable", "clicked");
+      span.onclick = null;
+    });
+    const clearLink = document.getElementById("clear");
+    if (clearLink) clearLink.onclick = null;
+    const noLetterOption = document.getElementById("no-letter-option");
+    if (noLetterOption) noLetterOption.onclick = null;
 
     const counts = Object.values(featureCounts);
     const maxCount = Math.max(...counts);
@@ -850,6 +893,11 @@
 
   document.addEventListener('keydown', (event) => {
     const key = event.key;
+
+    if (hasSubmitted) {
+      event.preventDefault(); // Prevent all key actions after submission
+      return;
+    }
 
     if (key === 'Enter') {
       const idInputSection = document.getElementById("id-input-section");
