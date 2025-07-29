@@ -386,6 +386,9 @@
     const isValid = /^[A-Za-z0-9]{22,24}$/.test(input);
     const startBtn = document.getElementById("start-btn");
     startBtn.disabled = !isValid;
+    if (isValid) {
+    console.log('is valid');
+}
   }
 
   async function startTask() {
