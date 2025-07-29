@@ -391,8 +391,10 @@
 }
   }
 
-  async function startTask() {
+  function startTask() {
+    coonsole.log('start task')
     const input = document.getElementById("participantId").value.trim();
+    
     participantId = input;
 
     const allWords = await loadWords();
