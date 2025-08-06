@@ -389,41 +389,45 @@
   }
 
   async function startTask() {
-    const input = document.getElementById("participantId").value.trim();
-    participantId = input;
+  console.log("startTask called");
+  const input = document.getElementById("participantId").value.trim();
+  participantId = input;
 
-    const allWords = await loadWords();
-    if (allWords.length === 0) {
-      showError('No words available to display. Please try again later.');
-      return;
-    }
-
-    const subsetId = (parseInt(input.slice(-2), 36) % 24) + 1;
-    let subsetWords = allWords.filter(word => word.subset === subsetId);
-    
-    if (subsetWords.length === 0) {
-      showError(`No words found for subset ${subsetId}. Please try a different Prolific ID.`);
-      return;
-    }
-
-    const repeatCount = 5;
-    const shuffled = subsetWords.sort(() => 0.5 - Math.random());
-    const wordsToRepeat = shuffled.slice(0, Math.min(repeatCount, subsetWords.length));
-
-    words = [
-      ...subsetWords,
-      ...wordsToRepeat.map(word => ({
-        ...word,
-        isRepeated: true,
-        originalIndex: subsetWords.indexOf(word)
-      }))
-    ];
-
-    document.getElementById("id-input-section").style.display = "none";
-    document.getElementById("main-task").style.display = "block";
-    showWord();
+  const allWords = await loadWords();
+  if (allWords.length === 0) {
+    showError('No words available to display. Please try again later.');
+    return;
   }
 
+  const subsetId = (parseInt(input.slice(-2), 36) % 23) + 1;
+  console.log(`Calculated subsetId: ${subsetId}`);
+  let subsetWords = allWords.filter(word => word.subset === subsetId);
+
+  if (subsetWords.length === 0) {
+    showError(`No words found for subset ${subsetId}. Please contact support.`);
+    return;
+  }
+
+  console.log(`Subset words:`, subsetWords);
+
+  const repeatCount = 5;
+  const shuffled = subsetWords.sort(() => 0.5 - Math.random());
+  const wordsToRepeat = shuffled.slice(0, Math.min(repeatCount, subsetWords.length));
+
+  words = [
+    ...subsetWords,
+    ...wordsToRepeat.map(word => ({
+      ...word,
+      isRepeated: true,
+      originalIndex: subsetWords.indexOf(word)
+    }))
+  ];
+
+  console.log("Hiding ID input, showing main task");
+  document.getElementById("id-input-section").style.display = "none";
+  document.getElementById("main-task").style.display = "block";
+  showWord();
+}
   function formatTimestamp(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
