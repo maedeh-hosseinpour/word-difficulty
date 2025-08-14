@@ -8,7 +8,6 @@
       box-sizing: border-box;
     }
 
-    
     body {
       font-family: Arial, sans-serif;
       text-align: center;
@@ -346,266 +345,707 @@
     <div id="thank-you-text" style="display: none;"></div>
   </div>
 
+  <script>
+  let participantId = "";
+  let words = [
+    { word: "activists" },
+    { word: "Britain" },
+    { word: "Medgar" },
+    { word: "precious" },
+    { word: "pondered" },
+    { word: "previous" },
+    { word: "child" },
+    { word: "proteins" },
+    { word: "knowledge" },
+    { word: "wonderful" },
+    { word: "exasperated" },
+    { word: "year" },
+    { word: "nucleus" },
+    { word: "military" },
+    { word: "assistant" },
+    { word: "trails" },
+    { word: "designed" },
+    { word: "weak" },
+    { word: "shows" },
+    { word: "mother" },
+    { word: "much" },
+    { word: "alcorn" },
+    { word: "maps" },
+    { word: "d" },
+    { word: "mang" },
+    { word: "round" },
+    { word: "rosalind" },
+    { word: "friends" },
+    { word: "resulted" },
+    { word: "opportunities" },
+    { word: "october" },
+    { word: "poorly" },
+    { word: "see" },
+    { word: "choose" },
+    { word: "pestis" },
+    { word: "pantheon" },
+    { word: "husband" },
+    { word: "technology" },
+    { word: "bubbling" },
+    { word: "flood" },
+    { word: "ground" },
+    { word: "behavior" },
+    { word: "engaged" },
+    { word: "differently" },
+    { word: "principle" },
+    { word: "didn't" },
+    { word: "shortages" },
+    { word: "reasoning" },
+    { word: "foolish" },
+    { word: "who" },
+    { word: "realms" },
+    { word: "big" },
+    { word: "threat" },
+    { word: "pads" },
+    { word: "disappointment" },
+    { word: "improvements" },
+    { word: "seals" },
+    { word: "effects" },
+    { word: "pools" },
+    { word: "conversation" },
+    { word: "coincidentally" },
+    { word: "comb" },
+    { word: "such" },
+    { word: "midday" },
+    { word: "merrily" },
+    { word: "Panther" },
+    { word: "medieval" },
+    { word: "recognize" },
+    { word: "read" },
+    { word: "some" },
+    { word: "someday" },
+    { word: "Yersinia" },
+    { word: "him" },
+    { word: "sound" },
+    { word: "advocated" },
+    { word: "them" },
+    { word: "teeth" },
+    { word: "charm" },
+    { word: "checked" },
+    { word: "censorship" },
+    { word: "bold" },
+    { word: "eleven" },
+    { word: "he" },
+    { word: "prejudicial" },
+    { word: "including" },
+    { word: "instituted" },
+    { word: "intellectual" },
+    { word: "governesses" },
+    { word: "shared" },
+    { word: "guerilla" },
+    { word: "continued" },
+    { word: "sheep" },
+    { word: "prayed" },
+    { word: "paycheck" },
+    { word: "scholars" },
+    { word: "paths" },
+    { word: "parents" },
+    { word: "everything" },
+    { word: "ceased" },
+    { word: "might" },
+    { word: "whole" },
+    { word: "finished" },
+    { word: "white" },
+    { word: "tragedies" },
+    { word: "begin" },
+    { word: "believe" },
+    { word: "floor" },
+    { word: "engineering" },
+    { word: "going" },
+    { word: "threaded" },
+    { word: "organized" },
+    { word: "knows" },
+    { word: "english" },
+    { word: "fighters" },
+    { word: "touch" },
+    { word: "acquaintance" },
+    { word: "frightened" },
+    { word: "restrictions" },
+    { word: "appeared" },
+    { word: "bayou" },
+    { word: "aroused" },
+    { word: "autoimmune" },
+    { word: "automatically" },
+    { word: "weren't" },
+    { word: "watershed" },
+    { word: "early" },
+    { word: "governments" },
+    { word: "haydn" },
+    { word: "chapters" },
+    { word: "leaves" },
+    { word: "writing" }
+  ];
+  let currentIndex = 0;
+  let startTime = Date.now();
+  let responses = [];
+  let currentPhase = "rating"; 
+  let previousRating = null;
+  const participantUrl = document.referrer || "Direct";
+  const MIN_EXPLANATION_LENGTH = 10;
+  let featureCounts = {
+    long_words: 0,
+    digraphs: 0,
+    silent_letters: 0,
+    vowel_digraphs: 0
+  };
+  let hasSubmitted = false;
 
-<script>
-let participantId = "";
-let words = [
-  { word: "activists" },
-  { word: "Britain" },
-  { word: "Medgar" },
-  { word: "precious" },
-  { word: "pondered" },
-  { word: "previous" },
-  { word: "child" },
-  { word: "proteins" },
-  { word: "knowledge" },
-  { word: "wonderful" },
-  { word: "exasperated" },
-  { word: "year" },
-  { word: "nucleus" },
-  { word: "military" },
-  { word: "assistant" },
-  { word: "trails" },
-  { word: "designed" },
-  { word: "weak" },
-  { word: "shows" },
-  { word: "mother" },
-  { word: "much" },
-  { word: "alcorn" },
-  { word: "maps" },
-  { word: "d" },
-  { word: "mang" },
-  { word: "round" },
-  { word: "rosalind" },
-  { word: "friends" },
-  { word: "resulted" },
-  { word: "opportunities" },
-  { word: "october" },
-  { word: "poorly" },
-  { word: "see" },
-  { word: "choose" },
-  { word: "pestis" },
-  { word: "pantheon" },
-  { word: "husband" },
-  { word: "technology" },
-  { word: "bubbling" },
-  { word: "flood" },
-  { word: "ground" },
-  { word: "behavior" },
-  { word: "engaged" },
-  { word: "differently" },
-  { word: "principle" },
-  { word: "didn't'" },
-  { word: "shortages" },
-  { word: "reasoning" },
-  { word: "foolish" },
-  { word: "who" },
-  { word: "realms" },
-  { word: "big" },
-  { word: "threat" },
-  { word: "pads" },
-  { word: "disappointment" },
-  { word: "improvements" },
-  { word: "seals" },
-  { word: "effects" },
-  { word: "pools" },
-  { word: "conversation" },
-  { word: "coincidentally" },
-  { word: "comb" },
-  { word: "such" },
-  { word: "midday" },
-  { word: "merrily" },
-  { word: "Panther" },
-  { word: "medieval" },
-  { word: "recognize" },
-  { word: "read" },
-  { word: "some" },
-  { word: "someday" },
-  { word: "Yersinia" },
-  { word: "him" },
-  { word: "sound" },
-  { word: "advocated" },
-  { word: "them" },
-  { word: "teeth" },
-  { word: "charm" },
-  { word: "checked" },
-  { word: "censorship" },
-  { word: "bold" },
-  { word: "eleven" },
-  { word: "he" },
-  { word: "prejudicial" },
-  { word: "including" },
-  { word: "instituted" },
-  { word: "intellectual" },
-  { word: "governesses" },
-  { word: "shared" },
-  { word: "guerilla" },
-  { word: "continued" },
-  { word: "sheep" },
-  { word: "prayed" },
-  { word: "paycheck" },
-  { word: "scholars" },
-  { word: "paths" },
-  { word: "parents" },
-  { word: "everything" },
-  { word: "ceased" },
-  { word: "might" },
-  { word: "whole" },
-  { word: "finished" },
-  { word: "white" },
-  { word: "tragedies" },
-  { word: "begin" },
-  { word: "believe" },
-  { word: "floor" },
-  { word: "engineering" },
-  { word: "going" },
-  { word: "threaded" },
-  { word: "organized" },
-  { word: "knows" },
-  { word: "english" },
-  { word: "fighters" },
-  { word: "touch" },
-  { word: "acquaintance" },
-  { word: "frightened" },
-  { word: "restrictions" },
-  { word: "appeared" },
-  { word: "bayou" },
-  { word: "aroused" },
-  { word: "autoimmune" },
-  { word: "automatically" },
-  { word: "weren't" },
-  { word: "watershed" },
-  { word: "early" },
-  { word: "governments" },
-  { word: "haydn" },
-  { word: "chapters" },
-  { word: "leaves" },
-  { word: "writing" }
-];
-
-
-let currentIndex = 0;
-let startTime = Date.now();
-let responses = [];
-let previousRating = null;
-const participantUrl = document.referrer || "Direct";
-const MIN_EXPLANATION_LENGTH = 10;
-let featureCounts = {
-  long_words: 0,
-  digraphs: 0,
-  silent_letters: 0,
-  vowel_digraphs: 0
-};
-let hasSubmitted = false;
-
-function validateProlificId() {
-  const input = document.getElementById("participantId").value.trim();
-  const isValid = /^[A-Za-z0-9]{22,24}$/.test(input);
-  document.getElementById("start-btn").disabled = !isValid;
-}
-
-function startTask() {
-  participantId = document.getElementById("participantId").value.trim();
-  if (words.length === 0) {
-    showError('No words available to display.');
-    return;
+  function validateProlificId() {
+    const input = document.getElementById("participantId").value.trim();
+    const isValid = /^[A-Za-z0-9]{22,24}$/.test(input);
+    const startBtn = document.getElementById("start-btn");
+    startBtn.disabled = !isValid;
   }
-  document.getElementById("id-input-section").style.display = "none";
-  document.getElementById("main-task").style.display = "block";
-  showWord();
-}
 
+  async function startTask() {
+    console.log("startTask called");
+    const input = document.getElementById("participantId").value.trim();
+    participantId = input;
 
-function initializeResponse(index) {
-  if (!responses[index]) {
-    responses[index] = {
-      word: words[index].word,
-      clicked_letters: [],
-      difficulty: null,
-      time_seconds: null,
-      reason: "",
-      rating_sequence: []
-    };
-  }
-}
-
-function showWord() {
-  const wordBox = document.getElementById("word");
-  const nextBtn = document.getElementById("next-btn");
-  const submitBtn = document.getElementById("submit-btn");
-  const explanationBox = document.getElementById("text-explanation");
-  const reasonInput = document.getElementById("difficultyReason");
-  const errorContainer = document.getElementById("error-container");
-
-  wordBox.innerHTML = "";
-  nextBtn.disabled = true;
-  submitBtn.style.display = "none";
-  explanationBox.style.display = "none";
-  reasonInput.value = "";
-  errorContainer.innerHTML = "";
-  previousRating = null;
-
-  document.querySelectorAll(".rating-button").forEach(btn => {
-    btn.classList.remove("selected");
-    btn.disabled = false;
-  });
-
-  if (currentIndex < words.length) {
-    const currentWord = words[currentIndex].word;
-    const wordContainer = document.createElement("div");
-    wordContainer.classList.add("word-container");
-    [...currentWord].forEach((char, index) => {
-      const span = document.createElement("span");
-      span.textContent = char;
-      span.classList.add("letter");
-      span.dataset.index = index;
-      wordContainer.appendChild(span);
-    });
-    wordBox.appendChild(wordContainer);
-    initializeResponse(currentIndex);
-    if (currentIndex === words.length - 1) {
-      submitBtn.style.display = "inline-block";
-      nextBtn.style.display = "none";
-    } else {
-      submitBtn.style.display = "none";
-      nextBtn.style.display = "inline-block";
+    if (words.length === 0) {
+      showError('No words available to display. Please try again later.');
+      return;
     }
-    startTime = Date.now();
-  }
-}
 
-function rateWord(rating) {
-  const timeTaken = (Date.now() - startTime) / 1000;
-  document.querySelectorAll(".rating-button").forEach(btn => {
-    btn.classList.remove("selected");
-    if (parseInt(btn.dataset.rating) === rating) btn.classList.add("selected");
-  });
-  initializeResponse(currentIndex);
-  responses[currentIndex].rating_sequence.push(rating);
-  responses[currentIndex].difficulty = responses[currentIndex].rating_sequence.join(',');
-  responses[currentIndex].time_seconds = timeTaken;
-  previousRating = rating;
-  document.getElementById("next-btn").disabled = false;
-  document.getElementById("submit-btn").disabled = false;
-}
+    const repeatCount = 5;
+    const shuffled = words.sort(() => 0.5 - Math.random());
+    const wordsToRepeat = shuffled.slice(0, Math.min(repeatCount, words.length));
 
-function goToNextWord() {
-  if (currentIndex < words.length - 1) {
-    currentIndex++;
+    words = [
+      ...shuffled,
+      ...wordsToRepeat.map(word => ({
+        ...word,
+        isRepeated: true,
+        originalIndex: words.indexOf(word)
+      }))
+    ];
+
+    console.log("Hiding ID input, showing main task");
+    document.getElementById("id-input-section").style.display = "none";
+    document.getElementById("main-task").style.display = "block";
     showWord();
   }
-}
 
-function showError(message) {
-  document.getElementById("error-container").innerHTML = `<div class="error-message">${message}</div>`;
-}
+  function formatTimestamp(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
 
-function submitResults() {
-  console.log("Submitting responses:", responses);
-  document.getElementById("word").innerHTML = `<div class="analysis-box">Thank you! Your responses have been recorded.</div>`;
-  document.getElementById("next-btn").style.display = "none";
-  document.getElementById("submit-btn").style.display = "none";
-}
+  function initializeResponse(index) {
+    if (!responses[index]) {
+      responses[index] = {
+        word: words[index].word,
+        clicked_letters: [],
+        difficulty: null,
+        time_seconds: null,
+        reason: "",
+        participants_url: participantUrl,
+        timestamp: formatTimestamp(new Date()),
+        rating_sequence: [],
+        isRepeated: words[index].isRepeated || false,
+        originalIndex: words[index].isRepeated ? words[index].originalIndex : index
+      };
+    }
+  }
+
+  function showWord() {
+    const wordBox = document.getElementById("word");
+    const instruction = document.getElementById("rating-instruction");
+    const nextBtn = document.getElementById("next-btn");
+    const submitBtn = document.getElementById("submit-btn");
+    const explanationBox = document.getElementById("text-explanation");
+    const reasonInput = document.getElementById("difficultyReason");
+    const errorContainer = document.getElementById("error-container");
+    const verificationText = document.getElementById("verification-text");
+    const thankYouText = document.getElementById("thank-you-text");
+
+    wordBox.style.display = "block";
+    wordBox.innerHTML = "";
+    instruction.style.display = "none";
+    nextBtn.disabled = true;
+    submitBtn.style.display = "none";
+    explanationBox.style.display = "none";
+    reasonInput.value = "";
+    errorContainer.innerHTML = "";
+    verificationText.innerHTML = "";
+    thankYouText.style.display = "none";
+    currentPhase = "rating";
+    previousRating = null;
+
+    document.querySelectorAll(".rating-button").forEach(btn => {
+      btn.classList.remove("selected");
+      btn.disabled = false;
+      btn.style.display = "inline-block";
+    });
+
+    document.body.style.overflowY = "hidden";
+
+    if (currentIndex < words.length) {
+      const currentWord = words[currentIndex]?.word;
+      console.log(`Displaying word at index ${currentIndex}: ${currentWord}`);
+      if (!currentWord) {
+        showError('No valid word found for display.');
+        return;
+      }
+
+      const wordContainer = document.createElement("div");
+      wordContainer.classList.add("word-container");
+
+      [...currentWord].forEach((char, index) => {
+        const span = document.createElement("span");
+        span.textContent = char;
+        span.classList.add("letter");
+        span.dataset.index = index;
+        wordContainer.appendChild(span);
+      });
+
+      wordBox.appendChild(wordContainer);
+
+      initializeResponse(currentIndex);
+
+      if (currentIndex === words.length - 1) {
+        submitBtn.style.display = "inline-block";
+        nextBtn.style.display = "none";
+      } else {
+        submitBtn.style.display = "none";
+        nextBtn.style.display = "inline-block";
+      }
+      startTime = Date.now();
+    } else {
+      console.log('No words to display: words array is empty or index out of bounds');
+      showError('No more words to display.');
+    }
+  }
+
+  function clearAllSelections() {
+    const letters = document.querySelectorAll("#word .letter");
+    letters.forEach(span => {
+      span.classList.remove("selectable", "clicked");
+      span.onclick = null;
+    });
+    
+    document.getElementById("difficultyReason").value = "";
+    updateCharCount();
+    
+    if (responses[currentIndex]) {
+      responses[currentIndex].clicked_letters = [];
+      responses[currentIndex].reason = "";
+    }
+  }
+
+  function rateWord(rating) {
+    const timeTaken = (Date.now() - startTime) / 1000;
+    
+    document.querySelectorAll(".rating-button").forEach(btn => {
+      btn.classList.remove("selected");
+      if (parseInt(btn.dataset.rating) === rating) {
+        btn.classList.add("selected");
+      }
+    });
+
+    initializeResponse(currentIndex);
+    
+    const wasHard = previousRating && previousRating >= 3;
+    const isHard = rating >= 3;
+    
+    if ((wasHard && !isHard) || (!wasHard && isHard)) {
+      clearAllSelections();
+    }
+    
+    responses[currentIndex].rating_sequence.push(rating);
+    responses[currentIndex].difficulty = responses[currentIndex].rating_sequence.join(',');
+    responses[currentIndex].time_seconds = timeTaken;
+    
+    previousRating = rating;
+
+    const instruction = document.getElementById("rating-instruction");
+    const explanationBox = document.getElementById("text-explanation");
+    if (rating >= 3) {
+      instruction.style.display = "block";
+      explanationBox.style.display = "none"; 
+      enableLetterSelection();
+      currentPhase = "letter-selection";
+    } else {
+      instruction.style.display = "none";
+      explanationBox.style.display = "block";
+      const letters = document.querySelectorAll("#word .letter");
+      letters.forEach(span => {
+        span.classList.remove("selectable");
+        span.onclick = null;
+      });
+      currentPhase = "text-explanation";
+
+      document.getElementById("next-btn").disabled = false;
+      document.getElementById("submit-btn").disabled = false;
+    }
+  
+    const hasLetterSelections = responses[currentIndex].clicked_letters.length > 0;
+    const hasExplanation = responses[currentIndex].reason.trim().length >= MIN_EXPLANATION_LENGTH;
+  
+    if (hasExplanation) {
+      showExplanationBox();
+      document.getElementById("difficultyReason").value = responses[currentIndex].reason;
+      updateCharCount();
+    } else if (rating >= 3 && !hasLetterSelections) {
+      document.getElementById("next-btn").disabled = true;
+      document.getElementById("submit-btn").disabled = true;
+    }
+  
+    clearError();
+  }
+
+  function enableLetterSelection() {
+    const letters = document.querySelectorAll("#word .letter");
+    letters.forEach(span => {
+      span.classList.add("selectable");
+      
+      const idx = parseInt(span.dataset.index);
+      const isSelected = responses[currentIndex].clicked_letters.some(l => l.position === idx);
+      if (isSelected) {
+        span.classList.add("clicked");
+      }
+      
+      span.onclick = () => {
+        if (span.classList.contains("clicked")) {
+          span.classList.remove("clicked");
+          responses[currentIndex].clicked_letters = responses[currentIndex].clicked_letters.filter(l => l.position !== idx);
+        } else {
+          span.classList.add("clicked");
+          responses[currentIndex].clicked_letters.push({ 
+            letter: span.textContent, 
+            position: idx 
+          });
+        }
+        checkNextButtonState();
+      };
+    });
+    
+    const clearLink = document.getElementById("clear");
+    if (clearLink) {
+      clearLink.onclick = resetLetterSelection;
+    }
+    
+    const noLetterOption = document.getElementById("no-letter-option");
+    if (noLetterOption) {
+      noLetterOption.onclick = showExplanationBox;
+    }
+  }
+
+  function resetLetterSelection() {
+    const letters = document.querySelectorAll("#word .letter");
+    letters.forEach(span => span.classList.remove("clicked"));
+    responses[currentIndex].clicked_letters = [];
+    
+    document.getElementById("text-explanation").style.display = "none"; 
+    document.getElementById("difficultyReason").value = "";
+    responses[currentIndex].reason = "";
+    
+    currentPhase = "letter-selection";
+    document.getElementById("next-btn").disabled = true;
+    document.getElementById("submit-btn").disabled = true;
+    
+    checkNextButtonState();
+    document.body.style.overflowY = "hidden"; 
+  }
+
+  function showExplanationBox() {
+    currentPhase = "text-explanation";
+    const explanationBox = document.getElementById("text-explanation");
+    explanationBox.style.display = "block";
+    updateCharCount();
+    checkNextButtonState();
+    document.body.style.overflowY = "auto"; 
+    document.body.style.webkitOverflowScrolling = "touch"; 
+  }
+
+  function updateCharCount() {
+    const reasonText = document.getElementById("difficultyReason").value;
+    const charCount = document.getElementById("char-count");
+    const remaining = 500 - reasonText.length;
+    const isValid = reasonText.length >= MIN_EXPLANATION_LENGTH;
+    
+    charCount.textContent = `${reasonText.length}/500 characters (minimum ${MIN_EXPLANATION_LENGTH})`;
+    charCount.style.color = isValid ? "#2e7d32" : "#666";
+  }
+
+  function checkNextButtonState() {
+    const nextBtn = document.getElementById("next-btn");
+    const submitBtn = document.getElementById("submit-btn");
+    const reasonText = document.getElementById("difficultyReason").value.trim();
+    const hasExplanation = reasonText.length >= MIN_EXPLANATION_LENGTH;
+    const hasLetterSelections = responses[currentIndex].clicked_letters.length > 0;
+    
+    if (previousRating >= 3) {
+      nextBtn.disabled = !hasExplanation && !hasLetterSelections;
+      submitBtn.disabled = !hasExplanation && !hasLetterSelections;
+    } else {
+      nextBtn.disabled = false;
+      submitBtn.disabled = false;
+    }
+    updateCharCount();
+  }
+
+  function showError(message) {
+    const errorContainer = document.getElementById("error-container");
+    errorContainer.innerHTML = `<div class="error-message">${message}</div>`;
+  }
+
+  function clearError() {
+    const errorContainer = document.getElementById("error-container");
+    errorContainer.innerHTML = "";
+  }
+
+  function getFeatureExplanations(features) {
+    const explanations = {
+      digraphs: "Digraphs are pairs of letters that together make a single sound, such as th, ch, gh, sh, ph, wh.",
+      vowel_digraphs: "Vowel digraphs are two vowels that combine to make one sound, like ea, ou, ei, ie, oe, ai, au, oo, ay, ey.",
+      silent_letters: "Silent letters are letters in a word that are not pronounced, such as the 'k' in 'knight' or the 'w' in 'write'."
+    };
+    return features.map(feature => explanations[feature] || "").filter(Boolean).join("<br>");
+  }
+
+  function goToNextWord() {
+    if (currentIndex < words.length - 1) {
+      const reasonText = document.getElementById("difficultyReason").value.trim();
+      if (previousRating >= 3 && reasonText.length < MIN_EXPLANATION_LENGTH && responses[currentIndex].clicked_letters.length === 0) {
+        showError(`Please provide at least ${MIN_EXPLANATION_LENGTH} characters of explanation or select at least one letter.`);
+        return;
+      }
+      responses[currentIndex].reason = reasonText;
+      
+      document.querySelectorAll(".rating-button").forEach(btn => {
+        btn.classList.remove("selected");
+        btn.disabled = false;
+        btn.blur(); 
+      });
+      previousRating = null; 
+      
+      currentIndex++;
+      showWord();
+    } else if (currentIndex === words.length - 1) {
+      const reasonText = document.getElementById("difficultyReason").value.trim();
+      if (previousRating >= 3 && reasonText.length < MIN_EXPLANATION_LENGTH && responses[currentIndex].clicked_letters.length === 0) {
+        showError(`Please provide at least ${MIN_EXPLANATION_LENGTH} characters of explanation or select at least one letter.`);
+        return;
+      }
+      responses[currentIndex].reason = reasonText;
+      
+      const submitBtn = document.getElementById("submit-btn");
+      const wordBox = document.getElementById("word");
+      const nextBtn = document.getElementById("next-btn");
+      const instruction = document.getElementById("rating-instruction");
+
+      const counts = Object.values(featureCounts);
+      const maxCount = Math.max(...counts);
+      const mostChallengingFeatures = Object.keys(featureCounts).filter(key => featureCounts[key] === maxCount);
+
+      let feedback;
+      if (maxCount > 0) {
+        const featureText = mostChallengingFeatures.length === 1 
+          ? mostChallengingFeatures[0].replace('_', ' ') 
+          : mostChallengingFeatures.map(f => f.replace('_', ' ')).join(', ');
+        feedback = `Based on your answers, ${featureText} ${mostChallengingFeatures.length === 1 ? 'is' : 'are'} the most challenging feature${mostChallengingFeatures.length === 1 ? '' : 's'} for you.`;
+        const explanations = getFeatureExplanations(mostChallengingFeatures);
+        if (explanations) {
+          feedback += `<br><br><b>Explanations:</b><br>${explanations}`;
+        }
+      } else {
+        feedback = "Based on your answers, no specific features stood out as particularly challenging.";
+      }
+
+      wordBox.innerHTML = `<div class="analysis-box">${feedback}</div>`;
+      submitBtn.style.display = "block";
+      nextBtn.style.display = "none";
+      instruction.style.display = "none";
+      document.querySelectorAll(".rating-button").forEach(btn => btn.style.display = "none");
+      document.getElementById("difficulty-question").style.display = "none";
+    }
+  }
+
+  function getRatingText(rating) {
+    switch (rating) {
+      case 1: return "Very Easy";
+      case 2: return "Easy";
+      case 3: return "Hard";
+      case 4: return "Very Hard";
+      default: return "";
+    }
+  }
+
+  function submitResults() {
+    // Prevent multiple submissions
+    if (hasSubmitted) {
+      console.log("Submission already attempted, ignoring.");
+      return;
+    }
+
+    // Set submission flag
+    hasSubmitted = true;
+
+    // Disable all interactive elements
+    document.querySelectorAll(".rating-button").forEach(btn => {
+      btn.disabled = true;
+      btn.onclick = null; // Remove click handlers
+    });
+    document.getElementById("next-btn").disabled = true;
+    document.getElementById("next-btn").onclick = null; // Remove click handler
+    const submitBtn = document.getElementById("submit-btn");
+    submitBtn.disabled = true;
+    submitBtn.onclick = null; // Remove click handler
+    document.getElementById("difficultyReason").disabled = true; // Disable textarea
+    const letters = document.querySelectorAll("#word .letter");
+    letters.forEach(span => {
+      span.classList.remove("selectable", "clicked");
+      span.onclick = null; // Remove letter click handlers
+    });
+    const clearLink = document.getElementById("clear");
+    if (clearLink) clearLink.onclick = null;
+    const noLetterOption = document.getElementById("no-letter-option");
+    if (noLetterOption) noLetterOption.onclick = null;
+
+    submitBtn.textContent = "Submitting...";
+
+    const url = `https://script.google.com/macros/s/AKfycbwtxXb5rlg_AQ8C2HWC-oOFEvgJTcd3QiHLGUllwuy9NPVpRM8bf04A9pgMsRifVx0l/exec?participant=${participantId}`;
+
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(responses)
+    })
+    .then(res => res.text())
+    .then(() => {
+      submitBtn.textContent = "Submitted";
+      showVerificationCode();
+    })
+    .catch(error => {
+      console.warn("Submission may have failed.");
+      console.error("Error details:", error);
+      submitBtn.textContent = "Submission Failed";
+      showError("Submission failed. Please contact support or try refreshing the page.");
+    });
+  }
+
+  function showVerificationCode() {
+    const submitBtn = document.getElementById("submit-btn");
+    const wordBox = document.getElementById("word");
+    const verificationText = document.getElementById("verification-text");
+    const thankYouText = document.getElementById("thank-you-text");
+    const instruction = document.getElementById("rating-instruction");
+    const explanationBox = document.getElementById("text-explanation");
+
+    // Ensure all interactive elements remain disabled
+    document.getElementById("difficultyReason").disabled = true;
+    document.querySelectorAll(".rating-button").forEach(btn => {
+      btn.disabled = true;
+      btn.onclick = null;
+    });
+    document.getElementById("next-btn").disabled = true;
+    document.getElementById("next-btn").onclick = null;
+    submitBtn.disabled = true;
+    submitBtn.onclick = null;
+    const letters = document.querySelectorAll("#word .letter");
+    letters.forEach(span => {
+      span.classList.remove("selectable", "clicked");
+      span.onclick = null;
+    });
+    const clearLink = document.getElementById("clear");
+    if (clearLink) clearLink.onclick = null;
+    const noLetterOption = document.getElementById("no-letter-option");
+    if (noLetterOption) noLetterOption.onclick = null;
+
+    const counts = Object.values(featureCounts);
+    const maxCount = Math.max(...counts);
+    const mostChallengingFeatures = Object.keys(featureCounts).filter(key => featureCounts[key] === maxCount);
+
+    let feedback;
+    if (maxCount > 0) {
+      const featureText = mostChallengingFeatures.length === 1 
+        ? mostChallengingFeatures[0].replace('_', ' ') 
+        : mostChallengingFeatures.map(f => f.replace('_', ' ')).join(', ');
+      feedback = `Based on your answers, ${featureText} ${mostChallengingFeatures.length === 1 ? 'is' : 'are'} the most challenging ${mostChallengingFeatures.length === 1 ? '' : 's'} for you.`;
+      const explanations = getFeatureExplanations(mostChallengingFeatures);
+      if (explanations) {
+        feedback += `<br><br><b>Explanations:</b><br>${explanations}`;
+      }
+    } else {
+      feedback = "Based on your answers, no specific features stood out as particularly challenging.";
+    }
+
+    wordBox.innerHTML = `<div class="analysis-box">${feedback}</div>`;
+    verificationText.innerHTML = `<br><a href="https://docs.google.com/forms/d/e/1FAIpQLSeCZUIvemRO_uF_VZgLdh0OlX41Qcrkse2fOaRug287hdyugQ/viewform?usp=dialog" target="_blank" class="clear-text">Go to Post-Survey</a>`;
+    submitBtn.style.display = "none";
+    thankYouText.style.display = "none";
+    instruction.style.display = "none";
+    explanationBox.style.display = "none"; 
+    document.getElementById("difficulty-question").style.display = "none";
+    document.querySelectorAll(".rating-button").forEach(btn => btn.style.display = "none");
+  }
+
+  document.addEventListener('keydown', (event) => {
+    const key = event.key;
+
+    if (hasSubmitted) {
+      event.preventDefault(); // Prevent all key actions after submission
+      return;
+    }
+
+    if (key === 'Enter') {
+      const idInputSection = document.getElementById("id-input-section");
+      const mainTask = document.getElementById("main-task");
+
+      if (idInputSection.style.display !== "none") {
+        const startBtn = document.getElementById("start-btn");
+        if (!startBtn.disabled) {
+          event.preventDefault();
+          startTask();
+          return;
+        }
+      }
+
+      if (mainTask.style.display === "block") {
+        if (event.target.tagName === 'TEXTAREA') return;
+
+        const nextBtn = document.getElementById("next-btn");
+        const submitBtn = document.getElementById("submit-btn");
+
+        if (!nextBtn.disabled && nextBtn.style.display !== "none") {
+          event.preventDefault();
+          goToNextWord();
+        } else if (!submitBtn.disabled && submitBtn.style.display !== "none") {
+          event.preventDefault();
+          submitResults();
+        }
+      }
+    }
+
+    const mainTask = document.getElementById("main-task");
+    if (mainTask.style.display !== "block") return;
+
+    if (['1', '2', '3', '4'].includes(key)) {
+      if (event.target.tagName === 'TEXTAREA') return;
+
+      event.preventDefault();
+      const rating = parseInt(key);
+      if (currentIndex < words.length) {
+        document.querySelectorAll(".rating-button").forEach(btn => {
+          btn.classList.remove("selected");
+          btn.blur();
+        });
+        rateWord(rating);
+      }
+    }
+  });
+
+  document.getElementById("difficultyReason").addEventListener('input', updateCharCount);
 </script>
 </body>
 </html>
